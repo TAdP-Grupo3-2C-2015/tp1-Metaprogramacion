@@ -6,17 +6,4 @@
 Enunciado
 
 --------
-
-Fechas de entrega
-
-12-Sep checkpoint
-26-Sep entrega
-3-oct individual
-
---------
-Integrantes
-
-  *Martin Loguancio
-  *Erwin Desbusschere
-  *Julieta Luzzi
-  *Fernando Petryszyn
+ [TEAM INFO PLACEHOLDER]
