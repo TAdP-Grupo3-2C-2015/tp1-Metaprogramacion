@@ -6,4 +6,4 @@
 Enunciado
 
 --------
- [TEAM INFO PLACEHOLDER]
+ **[TEAM INFO PLACEHOLDER]**
