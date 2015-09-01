@@ -12,7 +12,7 @@
 
 ***
 
-##### Integrantes
+##### Devs
 1. *Martin Loguancio*
 2. *Erwin Desbusschere*
 3. *Julieta Luzzi*

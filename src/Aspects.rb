@@ -13,7 +13,7 @@ class Aspects
 
   def __on__(element, &aspects_to_add)
 
-    if (element.class) == Regexp #|| (element.class) == String Si el elemento es una expresion regular en formato no ruby
+    if (element.class) == Regexp
       on_parseable_object(element,&aspects_to_add)
     else
       on_object(element, &aspects_to_add)
