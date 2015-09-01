@@ -7,7 +7,7 @@
 ###### Fechas de entrega
 * **12-Sep** *checkpoint*
 * **26-Sep** *entrega*
-* **3-oct** *individual*
+* **3-Oct** *individual*
 
 ***
 
