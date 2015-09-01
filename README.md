@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/TAdP-Grupo3/Tp1-Metaprogramacion.png?label=ready&title=Ready)](https://waffle.io/TAdP-Grupo3/Tp1-Metaprogramacion)
 #TADP - 2015 Metaprogramacion
 
 [Link al dashboard de Waffle](https://waffle.io/TAdP-Grupo3/Tp1-Metaprogramacion/join)
@@ -13,7 +14,7 @@ Framework de AOP (Aspect Oriented Programming) para Ruby
 3 . Transformaciones
 
 1 . Origenes
-Llamaremos "Origen" a uno o m·s objetos, mÛdulos o clases sobre cuyos mÈtodos nos interesa realizar transformaciones.
+Llamaremos "Origen" a uno o m√°s objetos, m√≥dulos o clases sobre cuyos m√©todos nos interesa realizar transformaciones.
 
 Aspects.on unObjeto do
     #Definicion de aspectos
@@ -43,9 +44,9 @@ end
 Aspects.on /NombreDeClaseQueNoExiste/ do
   # ...
 end
-# ArgumentError: origen vacÌo
+# ArgumentError: origen vac√≠o
 
-Aspects.on /NombreDeClaseQueNoExiste/, /NombreDeClaseQueSÌExiste/ do
+Aspects.on /NombreDeClaseQueNoExiste/, /NombreDeClaseQueS√≠Existe/ do
   # ...
 end
 # Exito!
@@ -53,23 +54,23 @@ end
 
 2 . Condiciones
 
-Permite filtrar los mÈtodos de un Origen en donde realizar una transformaciÛn.
-Para eso deben implementarse una serie de Condiciones que permitan filtrar los mÈtodos sobre los cuales actuar.
+Permite filtrar los m√©todos de un Origen en donde realizar una transformaci√≥n.
+Para eso deben implementarse una serie de Condiciones que permitan filtrar los m√©todos sobre los cuales actuar.
 
-Implementa un mensaje where, accesible desde dentro del contexto de los OrÌgenes, que recibe un conjunto de condiciones por par·metro.
-Los mÈtodos retornados no solo ser·n aquellos definidos en la clase o mÛdulo inmediato, sino todos los de su jerarquÌa.
+Implementa un mensaje where, accesible desde dentro del contexto de los Or√≠genes, que recibe un conjunto de condiciones por par√°metro.
+Los m√©todos retornados no solo ser√°n aquellos definidos en la clase o m√≥dulo inmediato, sino todos los de su jerarqu√≠a.
 
 Aspects.on MiClase, miObjeto do
   where <<Condicion1>>, <<Condicion2>>, ..., <<CondicionN>>
-  # Retorna los mÈtodos que entienden miObjeto y las instancias de MiClase
+  # Retorna los m√©todos que entienden miObjeto y las instancias de MiClase
   # que cumplen con todas las condiciones pedidas
 end
 
-Las Condiciones que deben ser soportadas se listan a continuaciÛn
-(Aunque esta lista podrÌa crecer en el futuro).
+Las Condiciones que deben ser soportadas se listan a continuaci√≥n
+(Aunque esta lista podr√≠a crecer en el futuro).
 
 2.1 . Selector
-Esta condiciÛn se cumple cuando el selector del mÈtodo respeta una cierta regex.
+Esta condici√≥n se cumple cuando el selector del m√©todo respeta una cierta regex.
 
 class MiClase
   def foo
@@ -81,20 +82,20 @@ end
 
 Aspects.on MiClase do
   where name(/fo{2}/)
-  # array con el mÈtodo foo (bar no matchea)
+  # array con el m√©todo foo (bar no matchea)
 
   where name(/fo{2}/), name(/foo/)
-  # array con el mÈtodo foo (foo matchea ambas regex)
+  # array con el m√©todo foo (foo matchea ambas regex)
 
   where name(/^fi+/)
-  # array vacÌo (ni bar ni foo matchean)
+  # array vac√≠o (ni bar ni foo matchean)
 
   where name(/foo/), name(/bar/)
-  # array vacÌo (ni foo ni bar matchean ambas regex)
+  # array vac√≠o (ni foo ni bar matchean ambas regex)
 end
 
 2.2 . Visibilidad
-Se cumple si el mÈtodo es privado o p˙blico.
+Se cumple si el m√©todo es privado o p√∫blico.
 
 class MiClase
   def foo
@@ -108,14 +109,14 @@ end
 
 Aspects.on MiClase do
   where name(/bar/), is_private
-  # array con el mÈtodo bar
+  # array con el m√©todo bar
 
   where name(/bar/), is_public
-  # array vacÌo
+  # array vac√≠o
 end
 
-2.3 . Cantidad de Par·metros
-Debe poder establecerse una condiciÛn que se cumpla si el mÈtodo tiene exactamente N par·metros obligatorios, opcionales o ambos.
+2.3 . Cantidad de Par√°metros
+Debe poder establecerse una condici√≥n que se cumpla si el m√©todo tiene exactamente N par√°metros obligatorios, opcionales o ambos.
 
 class MiClase
  def foo(p1, p2, p3, p4='a', p5='b', p6='c')
@@ -126,17 +127,17 @@ end
 
 Aspects.on MiClase do
   where has_parameters(3, mandatory)
-  # array con el mÈtodo foo
+  # array con el m√©todo foo
 
   where has_parameters(6)
-  # array con el mÈtodo foo
+  # array con el m√©todo foo
 
   where has_parameters(3, optional)
-  # array con los mÈtodos foo y bar
+  # array con los m√©todos foo y bar
 end
 
-2.4 . Nombre de Par·metros
-Esta condiciÛn se cumple si el mÈtodo tiene exactamente N par·metros cuyo nombre cumple cierta regex.
+2.4 . Nombre de Par√°metros
+Esta condici√≥n se cumple si el m√©todo tiene exactamente N par√°metros cuyo nombre cumple cierta regex.
 
 class MiClase
   def foo(param1, param2)
@@ -148,17 +149,17 @@ end
 
 Aspects.on MiClase do
   where has_parameters(1, /param.*/)
-  # array con los el mÈtodo bar
+  # array con los el m√©todo bar
 
   where has_parameters(2, /param.*/)
-  # array con el mÈtodo foo
+  # array con el m√©todo foo
 
   where has_parameters(3, /param.*/)
-  # array vacÌo
+  # array vac√≠o
 end
 
-2.5 . NegaciÛn
-Esta condiciÛn recibe otras condiciones por par·metro y se cumple cuando ninguna de ellas se cumple.
+2.5 . Negaci√≥n
+Esta condici√≥n recibe otras condiciones por par√°metro y se cumple cuando ninguna de ellas se cumple.
 
 class MiClase
   def foo1(p1)
@@ -171,32 +172,32 @@ end
 
 Aspects.on MiClase do
   where name(/foo\d/), neg(has_parameters(1))
-  # array con los mÈtodos foo2 y foo3
+  # array con los m√©todos foo2 y foo3
 end
 
-Nota: Usamos ìnegî como nombre de la condiciÛn en vez de ìnotî porque el ìnotî de Ruby toma precedencia.
+Nota: Usamos ‚Äúneg‚Äù como nombre de la condici√≥n en vez de ‚Äúnot‚Äù porque el ‚Äúnot‚Äù de Ruby toma precedencia.
 
 
 3 . Transformaciones
 
-Se pueden aplicar transformaciones sobre los mÈtodos que matchean todas las condiciones.
+Se pueden aplicar transformaciones sobre los m√©todos que matchean todas las condiciones.
 
 Aspects.on MiClase, miObjeto do
   transform(where <<Condicion1>>, <<Condicion2>>, ..,<<CondicionN>>) do
-    <<TransformaciÛn1>>
-    <<TransformaciÛn2>>
+    <<Transformaci√≥n1>>
+    <<Transformaci√≥n2>>
     ...
   end
 end
 
-Las Transformaciones soportadas se listan a continuaciÛn
-(Aunque esta lista podrÌa crecer en el futuro)
+Las Transformaciones soportadas se listan a continuaci√≥n
+(Aunque esta lista podr√≠a crecer en el futuro)
 
-Se pueden aplicar m˙ltiples transformaciones (sucesivas o no) para las mismas Condiciones u Origen.
+Se pueden aplicar m√∫ltiples transformaciones (sucesivas o no) para las mismas Condiciones u Origen.
 
-3.1 . InyecciÛn de par·metro
-Esta TransformaciÛn recibe un hash que representa nuevos valores para los par·metros del mÈtodo.
-Al momento de ser invocado, los par·metros con nombres definidos en el hash deben ser sustituidos por los valores presentes en el mismo.
+3.1 . Inyecci√≥n de par√°metro
+Esta Transformaci√≥n recibe un hash que representa nuevos valores para los par√°metros del m√©todo.
+Al momento de ser invocado, los par√°metros con nombres definidos en el hash deben ser sustituidos por los valores presentes en el mismo.
 
 class MiClase
   def hace_algo(p1, p2)
@@ -225,7 +226,7 @@ instancia.hace_otra_cosa("foo", "foo")
 
 
 Si el valor a inyectar es un Proc, no se debe inyectar el Proc, sino el resultado de ejecutarlo
-, pasando como par·metros al objeto receptor del mensaje, el selector del mÈtodo y el par·metro original.
+, pasando como par√°metros al objeto receptor del mensaje, el selector del m√©todo y el par√°metro original.
 
 
 class MiClase
@@ -246,9 +247,9 @@ MiClase.new.hace_algo('foo', 'foo')
 # 'foo-bar(hace_algo->foo)'
 
 
-3.2 . RedirecciÛn
-Esta transformaciÛn recibe un objeto sustituto por par·metro.
-Al momento de ser invocado el mÈtodo, en lugar de ser ejecutado sobre el receptor original, debe ejecutarse sobre el sustituto.
+3.2 . Redirecci√≥n
+Esta transformaci√≥n recibe un objeto sustituto por par√°metro.
+Al momento de ser invocado el m√©todo, en lugar de ser ejecutado sobre el receptor original, debe ejecutarse sobre el sustituto.
 
 class A
   def saludar(x)
@@ -258,7 +259,7 @@ end
 
 class B
   def saludar(x)
-    "AdiosÌn, " + x
+    "Adios√≠n, " + x
   end
 end
 
@@ -269,13 +270,13 @@ Aspects.on A do
 end
 
 A.new.saludar("Mundo")
-# "AdiosÌn, Mundo"
+# "Adios√≠n, Mundo"
 
 
-3.3 . InyecciÛn de lÛgica
-Esta transformaciÛn recibe un bloque con una extensiÛn al cÛdigo del mÈtodo original.
-Cuando el mÈtodo en cuestiÛn sea invocado, el bloque recibido debe ejecutarse:
- Antes, DespuÈs o En Lugar De el cÛdigo original del mÈtodo.
+3.3 . Inyecci√≥n de l√≥gica
+Esta transformaci√≥n recibe un bloque con una extensi√≥n al c√≥digo del m√©todo original.
+Cuando el m√©todo en cuesti√≥n sea invocado, el bloque recibido debe ejecutarse:
+ Antes, Despu√©s o En Lugar De el c√≥digo original del m√©todo.
 
 class MiClase
   attr_accessor :x
@@ -335,7 +336,7 @@ instancia.x
 # 123
 
 
-Nota: Es posible aplicar m˙ltiples transformaciones (sucesivas o no) para las mismas Condiciones u Origen.
+Nota: Es posible aplicar m√∫ltiples transformaciones (sucesivas o no) para las mismas Condiciones u Origen.
 
 class A
   def saludar(x)
@@ -345,7 +346,7 @@ end
 
 class B
   def saludar(x)
-    "AdiosÌn, " + x
+    "Adios√≠n, " + x
   end
 end
 
