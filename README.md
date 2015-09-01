@@ -2,7 +2,7 @@
 ***
 ###### [Enunciado](https://docs.google.com/document/d/1eF2wDjBPDy2XH4Wc4V6PzIfVyj2Vz2DCRO99lt-q-GY/edit)
 ===
-######[Link al dashboard de Waffle](https://waffle.io/TAdP-Grupo3/Tp1-Metaprogramacion/join)
++[![El cosito de Erwin(?)](https://badge.waffle.io/TAdP-Grupo3/Tp1-Metaprogramacion.png?label=ready&title=Ready)](https://waffle.io/TAdP-Grupo3/Tp1-Metaprogramacion)
 ===
 
 ###### Fechas de entrega
