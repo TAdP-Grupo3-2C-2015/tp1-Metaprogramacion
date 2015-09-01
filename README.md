@@ -1,8 +1,7 @@
+[![Waffle Erwin](https://badge.waffle.io/TAdP-Grupo3/Tp1-Metaprogramacion.png?label=ready&title=Ready)](https://waffle.io/TAdP-Grupo3/Tp1-Metaprogramacion)
 # TADP - 2015 Metaprogramacion
 ***
 ###### [Enunciado](https://docs.google.com/document/d/1eF2wDjBPDy2XH4Wc4V6PzIfVyj2Vz2DCRO99lt-q-GY/edit)
-===
-[![Waffle Erwin](https://badge.waffle.io/TAdP-Grupo3/Tp1-Metaprogramacion.png?label=ready&title=Ready)](https://waffle.io/TAdP-Grupo3/Tp1-Metaprogramacion)
 ===
 
 ###### Fechas de entrega
