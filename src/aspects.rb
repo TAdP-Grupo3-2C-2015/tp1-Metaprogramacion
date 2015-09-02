@@ -13,7 +13,6 @@ class Aspects
   #Fernando tenía razón y están en Object como symbols las clases
   def self.context_classes
     Object.constants
-
   end
 
 end
