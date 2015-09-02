@@ -1,5 +1,5 @@
 require 'rspec'
-require_relative '../../src/Aspects'
+require_relative '../../src/aspects'
 
 
 describe '.regex_search' do
@@ -9,8 +9,8 @@ describe '.regex_search' do
     Aspects.regex_search(regex)
   end
 
-  context 'when the regex matches' do
 
+  context 'when the regex matches' do
 
     it 'returns a single origin' do
       expect(origins(/F0/)).to contain_exactly(F00B4r)
@@ -20,10 +20,10 @@ describe '.regex_search' do
       expect(origins(/F[0o][0o]/)).to contain_exactly(Foo, FooBar, F00B4r)
     end
 
-
   end
-  context "when regex doesn't match" do
 
+
+  context "when regex doesn't match" do
 
     it 'there are no origins' do
       expect(origins(/ZZXX/)).to be_empty
@@ -33,6 +33,8 @@ describe '.regex_search' do
 
 end
 
+
+#Clases de prueba usadas por las specs
 class Foo
 end
 class FooBar

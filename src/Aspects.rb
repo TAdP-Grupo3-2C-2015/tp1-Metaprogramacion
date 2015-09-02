@@ -6,7 +6,7 @@ class Aspects
     context_classes.select { |class_symbol| regex =~ class_symbol }.each do |matching_class_symbol|
       matching_classes << (Object.const_get(matching_class_symbol))
     end
-    return matching_classes
+    matching_classes
   end
 
 
