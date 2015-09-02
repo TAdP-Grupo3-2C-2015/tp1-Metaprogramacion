@@ -10,7 +10,7 @@ class Aspects
   end
 
 
-  #Fernando ten√≠a raz√≥n y est√°n en Object como symbols las clases
+  #Fernando tenÌa razon y est·n en Object como symbols las clases
   def self.context_classes
     Object.constants
   end
