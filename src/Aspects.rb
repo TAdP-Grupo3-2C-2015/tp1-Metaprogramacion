@@ -3,15 +3,15 @@ class Aspects
 
   def self.regex_search(regex)
     matching_classes = []
-    get_classes.select { |a_symbol| regex =~ a_symbol }.each do |a_matching_symbol|
-      matching_classes << (Object.const_get(a_matching_symbol))
+    context_classes.select { |class_symbol| regex =~ class_symbol }.each do |matching_class_symbol|
+      matching_classes << (Object.const_get(matching_class_symbol))
     end
     return matching_classes
   end
 
 
   #Fernando tenía razón y están en Object como symbols las clases
-  def self.get_classes
+  def self.context_classes
     Object.constants
 
   end
