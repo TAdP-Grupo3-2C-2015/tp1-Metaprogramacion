@@ -1,45 +1,19 @@
 class Aspects
 
-  #Se usa Aspects.on elemento1,elemento2,elemento3 do .... end
-  def on(*elements, &aspects_to_add)
 
-    elements each do |element|
-      __on__(element, &aspects_to_add)
+  def self.regex_search(regex)
+    matching_classes = []
+    get_classes.select { |a_symbol| regex =~ a_symbol }.each do |a_matching_symbol|
+      matching_classes << (Object.const_get(a_matching_symbol))
     end
-
+    return matching_classes
   end
 
-  #Private ?? (?)
 
-  def __on__(element, &aspects_to_add)
+  #Fernando tenía razón y están en Object como symbols las clases
+  def self.get_classes
+    Object.constants
 
-    if (element.class) == Regexp
-      on_parseable_object(element,&aspects_to_add)
-    else
-      on_object(element, &aspects_to_add)
-    end
-
-  end
-
-  def on_parseable_object(expression, &aspects_to_add)
-
-    found_objects = parse_and_search_for(expression)
-    #Por ahi aca se podria llamar una recursividad al metodo "on" pelado en lugar del each, pero no se si conviene
-    #Haria un chequeo de nuevo al pedo para ver si son regExp.
-    found_objects each do |object|
-      on_object(object,&aspects_to_add)
-    end
-
-  end
-
-  def on_object(object, &aspects_to_add)
-    #TO_DO
-    #Agrega los aspectos, que vienen en un bloque
-  end
-
-  def parse_and_search_for(expression)
-    #TO_DO
-    #Devuelve una coleccion de objetos a los que hay que agregarle los aspectos
   end
 
 end
