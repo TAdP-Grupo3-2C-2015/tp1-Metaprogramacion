@@ -10,7 +10,7 @@ class Aspects
   end
 
 
-  #Fernando tenía razón y están en Object como symbols las clases
+  #Fernando tenÃ­a razÃ³n y estÃ¡n en Object como symbols las clases
   def self.context_classes
     Object.constants
 
