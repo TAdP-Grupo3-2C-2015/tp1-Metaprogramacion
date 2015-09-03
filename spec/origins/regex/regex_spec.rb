@@ -1,5 +1,5 @@
 require 'rspec'
-require_relative '../../src/aspects'
+require_relative '../../../src/aspects'
 
 
 describe '.regex_search' do
