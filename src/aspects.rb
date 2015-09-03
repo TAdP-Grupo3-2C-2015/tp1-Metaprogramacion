@@ -19,7 +19,7 @@ class Aspects
     if flattened_origins.empty?
       raise OriginArgumentException.new
     end
-    flattened_origins
+    flattened_origins.uniq!
   end
 
 
