@@ -27,7 +27,7 @@ describe '.name' do
     let(:name_filter) { Aspects.has_name(/xy/) }
     let(:method_xyz) { A.instance_method(:xyz) }
     let(:method_xyy) { A.instance_method(:xyy) }
-    let(:method_xyyy) {
+    let(:public_method_xyyy) {
       A.send(:public,:xyyy)
       method = A.instance_method(:xyyy)
       A.send(:private, :xyyy)
@@ -36,7 +36,7 @@ describe '.name' do
 
     it 'should retrieve both public and private matching selectors' do
 
-      expect(name_filter.match(A)).to contain_exactly(method_xyy, method_xyz, method_xyyy)
+      expect(name_filter.match(A)).to contain_exactly(method_xyy, method_xyz, public_method_xyyy)
 
     end
 
