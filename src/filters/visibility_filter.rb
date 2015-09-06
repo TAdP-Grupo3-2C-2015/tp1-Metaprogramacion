@@ -6,14 +6,8 @@ class VisibilityFilter<AbstractFilter
     @private_methods = boolean
   end
 
-  def match(origin)
-    if @private_methods
-      private_selectors = origin.private_instance_methods
-      private_selectors.each { |selector| origin.send(:public, selector) } #Los hago publicos y luego los parseo
-      return parse_symbols(private_selectors, origin)
-    else
-      return parse_symbols(origin.instance_methods, origin)
-    end
+  def matching_selectors
+    @private_methods ? self.private_selectors : self.public_selectors
   end
 
 end
