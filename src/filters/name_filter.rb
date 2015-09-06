@@ -10,9 +10,7 @@ class NameFilter<AbstractFilter
     self.all_methods.select { |selector| selector =~ @regex_criteria }
   end
 
-  def all_methods
-    self.public_selectors + self.private_selectors
-  end
+
 
 
 end

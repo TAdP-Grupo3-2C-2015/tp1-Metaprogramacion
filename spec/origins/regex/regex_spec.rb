@@ -4,40 +4,39 @@ require_relative '../../../src/aspects'
 
 describe '.regex_search' do
 
-  #Es un helper para que sea más linda la visualización
-  def origins(regex)
-    Aspects.regex_search(regex)
+  before(:all) do
+    Object.send(:const_set, :Foo, Class.new)
+    Object.send(:const_set, :FooBar, Class.new)
+    Object.send(:const_set, :F00B4r, Class.new)
   end
 
+  after (:all) do
+    [:Foo, :FooBar, :F00B4r].each { |const| Object.send(:remove_const, const) }
+  end
+
+  let(:test_class_Foo) { Foo.new }
+  let(:test_class_FooBar) { FooBar.new }
+  let(:test_class_F00B4r) { F00B4r.new }
 
   context 'when the regex matches' do
 
     it 'returns a single origin' do
-      expect(origins(/F0/)).to contain_exactly(F00B4r)
+      expect(Aspects.regex_search(/F0/)).to contain_exactly(F00B4r)
     end
 
     it 'returns multiple origins' do
-      expect(origins(/F[0o][0o]/)).to contain_exactly(Foo, FooBar, F00B4r)
+      expect(Aspects.regex_search(/F[0o][0o]/)).to contain_exactly(Foo, FooBar, F00B4r)
     end
 
   end
-
 
   context "when regex doesn't match" do
 
     it 'there are no origins' do
-      expect(origins(/ZZXX/)).to be_empty
+      expect(Aspects.regex_search(/ZZXX/)).to be_empty
     end
 
   end
 
 end
 
-
-#Clases de prueba usadas por las specs
-class Foo
-end
-class FooBar
-end
-class F00B4r
-end

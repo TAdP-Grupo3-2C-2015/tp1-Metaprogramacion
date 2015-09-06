@@ -1,24 +1,23 @@
 class AbstractFilter
 
-
   def match(origin)
     @origin = origin
     self.matching_methods(self.matching_selectors)
   end
 
-  def matching_methods(methods)
-    methods.map { |method| @origin.methods.include?(method) ?
+  def matching_methods(selectors)
+    selectors.map { |method| @origin.methods.include?(method) ?
         self.parse_public_selector(method) : self.parse_private_selector(method) }
 
   end
 
   def public_selectors
-    @origin.instance_methods
+    @origin.instance_methods(false)
 
   end
 
   def private_selectors
-    @origin.private_instance_methods
+    @origin.private_instance_methods(false)
   end
 
   def parse_public_selector(selector)
@@ -30,6 +29,10 @@ class AbstractFilter
     method = self.parse_public_selector(selector)
     self.make_private(selector)
     method
+  end
+
+  def all_methods
+    self.public_selectors + self.private_selectors
   end
 
   def make_public(selector)

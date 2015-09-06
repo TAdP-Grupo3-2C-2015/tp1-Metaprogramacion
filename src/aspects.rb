@@ -1,6 +1,7 @@
 require_relative '../src/exceptions/origin_argument_exception'
 require_relative '../src/filters/name_filter'
 require_relative '../src/filters/visibility_filter'
+require_relative '../src/filters/parameter_filter'
 
 class Aspects
 
@@ -18,6 +19,10 @@ class Aspects
   end
 
   #Filtros del where
+
+  def self.has_parameters(number_of_parameters)
+    ParameterFilter.new(number_of_parameters)
+  end
 
   def self.is_private
     VisibilityFilter.new(true)
