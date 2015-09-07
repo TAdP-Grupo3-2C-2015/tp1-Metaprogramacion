@@ -5,7 +5,6 @@ require_relative '../../spec/spec_helper'
 describe '.match' do
   include Class_helper
 
-
   let(:test_class) do
     fake_class = Class.new
     self.add_method(:public, fake_class, :xyz) {}
@@ -39,7 +38,6 @@ describe '.match' do
     it 'shows only private methods' do
       expect(visibility_filter.match(test_class).include?(method_xxx))
     end
-
 
   end
 

@@ -9,7 +9,7 @@ describe '.has_parameters' do
   let(:test_class) do
     fake_class = Class.new
     self.add_method(:public, fake_class, :public_no_param) {}
-    self.add_method(:public, fake_class, :public_one_param) { |param1|}
+    self.add_method(:public, fake_class, :public_one_param) { |x|}
     self.add_method(:private, fake_class, :private_no_param) {}
     self.add_method(:private, fake_class, :private_two_param) { |param1, param2, param3=0|}
   end
@@ -18,7 +18,6 @@ describe '.has_parameters' do
   let(:public_one_param) { self.get_public_method(test_class, :public_one_param) }
   let(:private_no_param) { self.get_private_method(test_class, :private_no_param) }
   let(:private_two_param) { self.get_private_method(test_class, :private_two_param) }
-
 
   context 'filter only by ammount' do
 
@@ -52,6 +51,22 @@ describe '.has_parameters' do
 
     it 'returns methods with no optional parameters' do
       expect(Aspects.has_parameters(2, Aspects.mandatory).match(test_class)).to contain_exactly(private_two_param)
+    end
+
+  end
+
+  context 'filter parameter name by regex' do
+
+    it 'returns methods parameter named x' do
+      expect(Aspects.has_parameters(1, /x/).match(test_class)).to contain_exactly(public_one_param)
+    end
+
+    it 'returns methods parameter/s named like param*' do
+      expect(Aspects.has_parameters(3, /param/).match(test_class)).to contain_exactly(private_two_param)
+    end
+
+    it 'no method is return' do
+      expect(Aspects.has_parameters(1, /regexLoco/).match(test_class)).to be_empty
     end
 
   end

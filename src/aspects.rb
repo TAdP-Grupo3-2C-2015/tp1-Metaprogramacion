@@ -2,6 +2,7 @@ require_relative '../src/exceptions/origin_argument_exception'
 require_relative '../src/filters/name_filter'
 require_relative '../src/filters/visibility_filter'
 require_relative '../src/filters/parameter_filter'
+require_relative '../src/filters/negation_filter'
 
 class Aspects
 
@@ -17,13 +18,13 @@ class Aspects
 
   end
 
-  ----------------------------------------
-#-------------------------------------------------
-#-------------------------------------------------
-#Modificador de filtro de argumentos
-#-------------------------------------------------
-#-------------------------------------------------
-#-------------------------------------------------
+  #-------------------------------------------------
+  #-------------------------------------------------
+  #-------------------------------------------------
+  #-----Modificador de filtro de argumentos
+  #-------------------------------------------------
+  #-------------------------------------------------
+  #-------------------------------------------------
 
   def self.optional
     Proc.new { |argument_description| argument_description.first.equal?(:opt) }
@@ -33,14 +34,21 @@ class Aspects
     Proc.new { |argument_description| argument_description.first.equal?(:req) }
   end
 
-#-------------------------------------------------
-#-------------------------------------------------
-#-------------------------------------------------
-#Filtros del where
-#-------------------------------------------------
-#-------------------------------------------------
-#-------------------------------------------------
+  #-------------------------------------------------
+  #-------------------------------------------------
+  #-------------------------------------------------
+  #-----Filtros del where
+  #-------------------------------------------------
+  #-------------------------------------------------
+  #-------------------------------------------------
 
+  def self.neg(*filters)
+    NegationFilter.new(filters)
+  end
+
+  def self.name(regex)
+    NameFilter.new(regex)
+  end
 
   def self.has_parameters(number_of_parameters, modifier = Proc.new { |argument_description| true })
     ParameterFilter.new(number_of_parameters, modifier)
@@ -54,19 +62,23 @@ class Aspects
     VisibilityFilter.new(false)
   end
 
-#-------------------------------------------------
-#-------------------------------------------------
-#-------------------------------------------------
-#Métodos privados
-#-------------------------------------------------
-#-------------------------------------------------
-#-------------------------------------------------
+  #-------------------------------------------------
+  #-------------------------------------------------
+  #-------------------------------------------------
+  #---------------Métodos privados------------------
+  #-------------------------------------------------
+  #-------------------------------------------------
+  #-------------------------------------------------
 
+
+  #-------------------------------------------------
+  #-------------------------------------------------
+  #-------------------------------------------------
+  #-----Transformación de regex a clases y eliminación de duplicados
+  #-------------------------------------------------
+  #-------------------------------------------------
+  #-------------------------------------------------
   private
-  def self.has_name(regex)
-    NameFilter.new(regex)
-  end
-
   def self.flatten_origins(origins)
 
     flattened_origins = []
@@ -80,13 +92,10 @@ class Aspects
     flattened_origins
   end
 
-
   def self.regex_search(regex)
     context_classes.select { |class_symbol| regex =~ class_symbol }.map { |existent_class| Object.const_get(existent_class) }
   end
 
-
-#Fernando tenía razon y están en Object como symbols las clases
   def self.context_classes
     Object.constants
   end

@@ -6,11 +6,16 @@ class NameFilter<AbstractFilter
     @regex_criteria = regex
   end
 
+
+  #-------------------------------------------------
+  #-------------------------------------------------
+  #-------------------------------------------------
+  #-----Filtrado por expresión regular
+  #-------------------------------------------------
+  #-------------------------------------------------
+  #-------------------------------------------------
   def matching_selectors
-    self.all_methods.select { |selector| selector =~ @regex_criteria }
+    self.all_selectors.select { |selector| selector =~ @regex_criteria }
   end
-
-
-
 
 end
