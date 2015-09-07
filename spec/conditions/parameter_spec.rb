@@ -11,42 +11,50 @@ describe '.has_parameters' do
     self.add_method(:public, fake_class, :public_no_param) {}
     self.add_method(:public, fake_class, :public_one_param) { |param1|}
     self.add_method(:private, fake_class, :private_no_param) {}
-    self.add_method(:private, fake_class, :private_two_param) { |param1, param2|}
+    self.add_method(:private, fake_class, :private_two_param) { |param1, param2, param3=0|}
   end
+
+  let(:public_no_param) { self.get_public_method(test_class, :public_no_param) }
+  let(:public_one_param) { self.get_public_method(test_class, :public_one_param) }
+  let(:private_no_param) { self.get_private_method(test_class, :private_no_param) }
+  let(:private_two_param) { self.get_private_method(test_class, :private_two_param) }
+
 
   context 'filter only by ammount' do
 
-    #Helpers
-    def parameter_filter(param_number)
-      Aspects.has_parameters(param_number)
-    end
-
-    #/Helpers
-
-
-    let(:public_no_param) { self.get_public_method(test_class, :public_no_param) }
-    let(:public_one_param) { self.get_public_method(test_class, :public_one_param) }
-    let(:private_no_param) { self.get_private_method(test_class, :private_no_param) }
-    let(:private_two_param) { self.get_private_method(test_class, :private_two_param) }
-
     it 'returns methods with no parameter' do
-      expect(parameter_filter(0).match(test_class)).to contain_exactly(public_no_param, private_no_param)
+      expect(Aspects.has_parameters(0).match(test_class)).to contain_exactly(public_no_param, private_no_param)
     end
 
     it 'returns methods with one parameter' do
-      expect(parameter_filter(1).match(test_class)).to contain_exactly(public_one_param)
+      expect(Aspects.has_parameters(1).match(test_class)).to contain_exactly(public_one_param)
     end
 
-    it 'returns methods with two parameter' do
-      expect(parameter_filter(2).match(test_class)).to contain_exactly(private_two_param)
+    it 'returns methods with three parameter' do
+      expect(Aspects.has_parameters(3).match(test_class)).to contain_exactly(private_two_param)
     end
 
     it 'returns no methods' do
-      expect(parameter_filter(100).match(test_class)).to be_empty
+      expect(Aspects.has_parameters(100).match(test_class)).to be_empty
     end
 
   end
 
+  context 'filter optional arguments only' do
+
+    it 'returns methods with no optional parameters' do
+      expect(Aspects.has_parameters(1, Aspects.optional).match(test_class)).to contain_exactly(private_two_param)
+    end
+
+  end
+
+  context 'filter mandatory arguments only' do
+
+    it 'returns methods with no optional parameters' do
+      expect(Aspects.has_parameters(2, Aspects.mandatory).match(test_class)).to contain_exactly(private_two_param)
+    end
+
+  end
 end
 
 

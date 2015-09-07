@@ -13,15 +13,37 @@ class Aspects
   end
 
 
-
   def self.where(*conditions)
 
   end
 
-  #Filtros del where
+  ----------------------------------------
+#-------------------------------------------------
+#-------------------------------------------------
+#Modificador de filtro de argumentos
+#-------------------------------------------------
+#-------------------------------------------------
+#-------------------------------------------------
 
-  def self.has_parameters(number_of_parameters)
-    ParameterFilter.new(number_of_parameters)
+  def self.optional
+    Proc.new { |argument_description| argument_description.first.equal?(:opt) }
+  end
+
+  def self.mandatory
+    Proc.new { |argument_description| argument_description.first.equal?(:req) }
+  end
+
+#-------------------------------------------------
+#-------------------------------------------------
+#-------------------------------------------------
+#Filtros del where
+#-------------------------------------------------
+#-------------------------------------------------
+#-------------------------------------------------
+
+
+  def self.has_parameters(number_of_parameters, modifier = Proc.new { |argument_description| true })
+    ParameterFilter.new(number_of_parameters, modifier)
   end
 
   def self.is_private
@@ -32,6 +54,15 @@ class Aspects
     VisibilityFilter.new(false)
   end
 
+#-------------------------------------------------
+#-------------------------------------------------
+#-------------------------------------------------
+#Métodos privados
+#-------------------------------------------------
+#-------------------------------------------------
+#-------------------------------------------------
+
+  private
   def self.has_name(regex)
     NameFilter.new(regex)
   end
@@ -55,7 +86,7 @@ class Aspects
   end
 
 
-  #Fernando tenía razon y están en Object como symbols las clases
+#Fernando tenía razon y están en Object como symbols las clases
   def self.context_classes
     Object.constants
   end
