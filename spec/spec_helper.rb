@@ -5,15 +5,8 @@ module Class_helper
     klass.send(visibility, selector)
   end
 
-  def get_public_method(test_class, selector)
+  def get_method(test_class, selector)
     test_class.instance_method(selector)
-  end
-
-  def get_private_method(test_class, selector)
-    test_class.send(:public, selector)
-    method = test_class.instance_method(selector)
-    test_class.send(:private, selector)
-    method
   end
 
 end

@@ -14,10 +14,10 @@ describe '.has_parameters' do
     self.add_method(:private, fake_class, :private_two_param) { |param1, param2, param3=0|}
   end
 
-  let(:public_no_param) { self.get_public_method(test_class, :public_no_param) }
-  let(:public_one_param) { self.get_public_method(test_class, :public_one_param) }
-  let(:private_no_param) { self.get_private_method(test_class, :private_no_param) }
-  let(:private_two_param) { self.get_private_method(test_class, :private_two_param) }
+  let(:public_no_param) { self.get_method(test_class, :public_no_param) }
+  let(:public_one_param) { self.get_method(test_class, :public_one_param) }
+  let(:private_no_param) { self.get_method(test_class, :private_no_param) }
+  let(:private_two_param) { self.get_method(test_class, :private_two_param) }
 
   context 'filter only by ammount' do
 

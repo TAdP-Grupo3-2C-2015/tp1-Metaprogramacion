@@ -46,7 +46,7 @@ class Aspects
     NegationFilter.new(filters)
   end
 
-  def self.name(regex)
+  def self.has_name(regex)
     NameFilter.new(regex)
   end
 
@@ -81,14 +81,13 @@ class Aspects
   private
   def self.flatten_origins(origins)
 
-    flattened_origins = []
-    origins.each do |origin|
-      origin.class.equal?(Regexp) ? flattened_origins << regex_search(origin) : flattened_origins << origin
-    end
-    flattened_origins.flatten!.uniq!
-    if flattened_origins.empty?
-      raise OriginArgumentException.new
-    end
+    # flattened_origins = []
+    # origins.each do |origin|
+    #   origin.class.equal?(Regexp) ? flattened_origins << regex_search(origin) : flattened_origins << origin
+    # end
+    flattened_origins = origins.map { |origin| origin.class.equal?(Regexp) ? regex_search(origin) : origin }
+    flattened_origins = flattened_origins.flatten.uniq
+    raise OriginArgumentException if flattened_origins.empty?
     flattened_origins
   end
 

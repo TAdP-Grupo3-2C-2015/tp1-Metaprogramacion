@@ -39,12 +39,8 @@ describe '.flatten_origins' do
 
   context 'empty origin' do
 
-    let(:origins) {
-      Aspects.flatten_origins([/ZZXXYY/])
-    }
-
     it 'throws an exception' do
-      expect { origins }.to raise_error(OriginArgumentException)
+      expect { Aspects.flatten_origins([/ZZXXYY/]) }.to raise_error(OriginArgumentException)
     end
 
   end

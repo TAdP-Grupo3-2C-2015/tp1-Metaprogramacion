@@ -12,9 +12,9 @@ describe '.match' do
     self.add_method(:private, fake_class, :xxx) {}
   end
 
-  let(:method_xyz) { self.get_public_method(test_class, :xyz) }
-  let(:method_xyy) { self.get_public_method(test_class, :xyy) }
-  let(:method_xxx) { self.get_private_method(test_class, :xxx) }
+  let(:method_xyz) { self.get_method(test_class, :xyz) }
+  let(:method_xyy) { self.get_method(test_class, :xyy) }
+  let(:method_xxx) { self.get_method(test_class, :xxx) }
 
   context 'when using is_public' do
 

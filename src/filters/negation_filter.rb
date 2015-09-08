@@ -1,18 +1,21 @@
-require_relative '../../src/filters/abstract_filter'
+require_relative '../../src/filters/name_filter'
+require_relative '../../src/exceptions/no_arguments_given'
 
-class NegationFilter<AbstractFilter
+class NegationFilter<NameFilter
 
   def initialize(filters)
+    raise NoArgumentsGivenError if filters.empty?
     @filters = filters
   end
 
+  private
   def matching_methods(selectors)
-    matchs = @filters.map { |filter| filter.match(@origin) }.flatten.uniq
-    super(selectors) - matchs
+    matchs = @filters.map { |filter| filter.match(@origin) }
+    super(selectors) - matchs.flatten
   end
 
   def matching_selectors
-    self.all_selectors
+    all_selectors
   end
 
 end

@@ -1,11 +1,12 @@
-require_relative '../../src/filters/abstract_filter'
+require_relative '../../src/filters/name_filter'
 
-class ParameterFilter < AbstractFilter
+class ParameterFilter < NameFilter
 
   def initialize(number_of_parameters, modifier_proc)
     @number_of_parameters = number_of_parameters
-    @modifier_proc = self.parse_if_regex(modifier_proc)
+    @modifier_proc = parse_if_regex(modifier_proc)
   end
+
 
   #-------------------------------------------------
   #-------------------------------------------------
@@ -14,8 +15,9 @@ class ParameterFilter < AbstractFilter
   #-------------------------------------------------
   #-------------------------------------------------
   #-------------------------------------------------
+  private
   def matching_methods(selectors)
-    self.filter_by_modifier(super)
+    filter_by_modifier(super)
   end
 
   #-------------------------------------------------
@@ -30,7 +32,7 @@ class ParameterFilter < AbstractFilter
   end
 
   def matching_selectors
-    self.all_selectors
+    all_selectors
   end
 
   def parse_if_regex(proc_or_regex)
