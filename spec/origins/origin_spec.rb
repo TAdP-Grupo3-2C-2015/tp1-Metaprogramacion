@@ -4,6 +4,23 @@ require_relative '../../src/aspects'
 
 describe '.flatten_origins' do
 
+  before(:all) do
+    Object.send(:const_set, :A12, Class.new)
+    Object.send(:const_set, :B12, Class.new)
+    Object.send(:const_set, :C12, Class.new)
+    Object.send(:const_set, :Foo, Class.new)
+  end
+
+  after (:all) do
+    [:A12, :B12, :C12, :Foo].each { |const| Object.send(:remove_const, const) }
+  end
+
+
+  let(:test_class_A12) { A12.new }
+  let(:test_class_B12) { B12.new }
+  let(:test_class_C12) { C12.new }
+  let(:test_class_Foo) { Foo.new }
+
   context 'multiple valid regexps and classes' do
 
     let(:origins) {
@@ -22,12 +39,8 @@ describe '.flatten_origins' do
 
   context 'empty origin' do
 
-    let(:origins) {
-      Aspects.flatten_origins([/ZZXXYY/])
-    }
-
     it 'throws an exception' do
-      expect { origins }.to raise_error(OriginArgumentException)
+      expect { Aspects.flatten_origins([/ZZXXYY/]) }.to raise_error(OriginArgumentException)
     end
 
   end
@@ -35,12 +48,3 @@ describe '.flatten_origins' do
 end
 
 
-#Clases de prueba
-class A12
-end
-class B12
-end
-class C12
-end
-class Foo
-end
