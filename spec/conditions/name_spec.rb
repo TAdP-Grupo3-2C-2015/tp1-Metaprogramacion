@@ -1,9 +1,10 @@
 require 'rspec'
-require_relative '../../src/aspects'
+require_relative '../../src/filters/filters'
 require_relative '../../spec/spec_helper'
 
 describe '.name' do
   include Class_helper
+  include Filters
 
   let(:test_class) do
     fake_class = Class.new
@@ -22,7 +23,7 @@ describe '.name' do
     }
 
     it 'should retrieve both public and private matching selectors' do
-      expect(Aspects.has_name(/xy/).match(test_class)).to contain_exactly(method_xyy, method_xyz, public_method_xyyy)
+      expect(has_name(/xy/).match(test_class)).to contain_exactly(method_xyy, method_xyz, public_method_xyyy)
     end
 
   end

@@ -18,7 +18,7 @@ describe '.match' do
 
   context 'when using is_public' do
 
-    let(:visibility_filter) { Aspects.is_public }
+    let(:visibility_filter) { VisibilityFilter.new(false) }
 
     it 'shows only public methods' do
       expect(visibility_filter.match(test_class).include?(method_xyz))
@@ -33,7 +33,7 @@ describe '.match' do
 
   context 'when using is_private' do
 
-    let(:visibility_filter) { Aspects.is_private }
+    let(:visibility_filter) { VisibilityFilter.new(true) }
 
     it 'shows only private methods' do
       expect(visibility_filter.match(test_class).include?(method_xxx))
