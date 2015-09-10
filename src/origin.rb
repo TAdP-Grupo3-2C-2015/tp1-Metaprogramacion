@@ -6,16 +6,17 @@ module Origin
   def redefine_method(method,behaviour)
     send(:define_method,method.name,behaviour)
   end
+
 end
 
 class Module
-  include Origin #es necesario volver a incluirlo porque el ancestor mas cercano es object
+  include Origin
 end
 
 class Object
   include Origin
   def redefine_method(method,behaviour)
-    send(:define_singleton_method,method.name,behaviour)
+    send(:define_singleton_method,method.name,behaviour) #minima repeticion de logica..ble
   end
 end
 
