@@ -28,10 +28,8 @@ module Transformations
   end
 
   def after
-    
-  end
 
-  private
+  end
 
   def get_injected_parameter_order(parameters,injected_parameters)
     parameter_names = parameters.map { | parameter | parameter[1] }
