@@ -29,7 +29,7 @@ class NameFilter
   end
 
   def matching_methods(selectors)
-    selectors.map { |selector| @origin.instance_method(selector) }
+    selectors.map { |selector| @origin.parse_selector(selector) }
   end
 
   #-------------------------------------------------
@@ -44,11 +44,11 @@ class NameFilter
   end
 
   def public_selectors
-    @origin.instance_methods(false)
+    @origin.public_selectors
   end
 
   def private_selectors
-    @origin.private_instance_methods(false)
+    @origin.private_selectors
   end
 
 end
