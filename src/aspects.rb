@@ -1,8 +1,8 @@
 require_relative '../src/exceptions/origin_argument_exception'
-require_relative '../src/filters/filters'
+require_relative '../src/filters/filter'
 
 class Aspects
-  include Filters
+  include Filter
   attr_accessor :origins
 
   def self.on(*origins, &aspects_block)

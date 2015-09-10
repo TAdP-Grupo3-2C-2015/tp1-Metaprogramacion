@@ -3,8 +3,9 @@ require_relative 'negation_filter'
 require_relative 'parameter_filter'
 require_relative 'visibility_filter'
 
-module Filters
-  def optional
+module Filter
+
+def optional
     Proc.new { |argument_description| argument_description.first.equal?(:opt) }
   end
 

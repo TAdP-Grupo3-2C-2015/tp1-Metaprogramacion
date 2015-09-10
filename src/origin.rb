@@ -6,13 +6,27 @@ module Origin
 
 end
 
+class Module
+  include Origin
+  #Es necesario volver a incluirlo porque el ancestor mas cercano es object, no BasicObject
 
-# class Module
-#   include Origin #es necesario volver a incluirlo porque el ancestor mas cercano es object, no BasicObject
-# end
+  def private_selectors
+    self.private_instance_methods
+  end
+
+  def public_selectors
+    self.instance_methods
+  end
+
+  def parse_selector(selector)
+    self.instance_method(selector)
+  end
+
+end
 
 class Object
   include Origin
+
   #Redefinir los metodos de transform
 end
 
@@ -25,7 +39,6 @@ class Regexp
 end
 
 class BasicObject
-
 
   def private_selectors
     self.private_methods
@@ -41,20 +54,5 @@ class BasicObject
 
 end
 
-class Module
-
-  def private_selectors
-    self.private_instance_methods
-  end
-
-  def public_selectors
-    self.instance_methods
-  end
-
-  def parse_selector(selector)
-    self.instance_method(selector)
-  end
-
-end
 
 
