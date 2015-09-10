@@ -7,26 +7,11 @@ class ParameterFilter < NameFilter
     @modifier_proc = parse_if_regex(modifier_proc)
   end
 
-
-  #-------------------------------------------------
-  #-------------------------------------------------
-  #-------------------------------------------------
-  #-----Parseo todos los métodos
-  #-------------------------------------------------
-  #-------------------------------------------------
-  #-------------------------------------------------
   private
   def matching_methods(selectors)
     filter_by_modifier(super)
   end
 
-  #-------------------------------------------------
-  #-------------------------------------------------
-  #-------------------------------------------------
-  #-----Filtrado los métodos en función del proc
-  #-------------------------------------------------
-  #-------------------------------------------------
-  #-------------------------------------------------
   def filter_by_modifier(methods)
     methods.select { |method| method.parameters.select { |parameter_info| @modifier_proc.call(parameter_info) }.size.equal?(@number_of_parameters) }
   end
