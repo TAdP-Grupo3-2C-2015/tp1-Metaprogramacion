@@ -10,7 +10,7 @@ class NegationFilter<NameFilter
 
   private
   def matching_methods(selectors)
-    matchs = @filters.map { |filter| filter.match(@origin) }
+    matchs = @filters.map { |filter| filter.call(@origin) }
     super(selectors) - matchs.flatten
   end
 

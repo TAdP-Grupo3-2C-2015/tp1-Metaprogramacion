@@ -21,12 +21,12 @@ describe '.match' do
     let(:visibility_filter) { VisibilityFilter.new(false) }
 
     it 'shows only public methods' do
-      expect(visibility_filter.match(test_class).include?(method_xyz))
-      expect(visibility_filter.match(test_class).include?(method_xyy))
+      expect(visibility_filter.call(test_class).include?(method_xyz))
+      expect(visibility_filter.call(test_class).include?(method_xyy))
     end
 
     it 'private methods are not shown' do
-      expect(visibility_filter.match(test_class)).not_to include(method_xxx)
+      expect(visibility_filter.call(test_class)).not_to include(method_xxx)
     end
 
   end
@@ -36,7 +36,7 @@ describe '.match' do
     let(:visibility_filter) { VisibilityFilter.new(true) }
 
     it 'shows only private methods' do
-      expect(visibility_filter.match(test_class).include?(method_xxx))
+      expect(visibility_filter.call(test_class).include?(method_xxx))
     end
 
   end

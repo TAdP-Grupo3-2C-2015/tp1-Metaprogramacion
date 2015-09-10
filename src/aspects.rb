@@ -21,4 +21,9 @@ class Aspects
     methods = methods.flatten.uniq.compact
   end
 
+  def transform
+
+  end
+
+
 end

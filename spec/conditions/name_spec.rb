@@ -23,7 +23,7 @@ describe '.name' do
     }
 
     it 'should retrieve both public and private matching selectors' do
-      expect(has_name(/xy/).match(test_class)).to contain_exactly(method_xyy, method_xyz, public_method_xyyy)
+      expect(has_name(/xy/).call(test_class)).to contain_exactly(method_xyy, method_xyz, public_method_xyyy)
     end
 
   end

@@ -11,7 +11,7 @@ class NameFilter
   #-------------------------------------------------
   #-------------------------------------------------
   #-------------------------------------------------
-  def match(origin)
+  def call(origin)
     @origin = origin
     matching_methods(matching_selectors)
   end
@@ -35,7 +35,7 @@ class NameFilter
   #-------------------------------------------------
   #-------------------------------------------------
   #-------------------------------------------------
-  #-----Mensajes para conseguir selectores. Borrar el parámetro false para conseguir TODOS los selectores
+  #-----Mensajes para conseguir selectores. Borrar el parï¿½metro false para conseguir TODOS los selectores
   #-------------------------------------------------
   #-------------------------------------------------
   #-------------------------------------------------
