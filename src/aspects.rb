@@ -25,23 +25,4 @@ class Aspects
       #TODO
   end
 
-
-  ############################################
-
-
-
-  def inject(injected_parameters)
-
-  end
-
-  def redirect_to(substitute)
-    lambda do | method |
-      redefine_method(method,proc {|*arguments| substitute.send(method.name,arguments)})
-    end
-  end
-
-  def redefine_method(method,behaviour)
-    method.owner.send(:define_method,method.name,behaviour)
-  end
-
 end
