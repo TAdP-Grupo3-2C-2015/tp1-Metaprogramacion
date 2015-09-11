@@ -4,14 +4,12 @@ require_relative '../src/transform'
 
 class Aspects
   include Filter
-  include Transformations
   attr_accessor :origins
 
   def self.on(*origins, &aspects_block)
     aspect_instance = self.new
     aspect_instance.origins = origins.map {|possible_origin| possible_origin.asOrigin}.flatten.uniq
     raise OriginArgumentException 'Origin set was empty' unless aspect_instance.origins.present?
-    aspect_instance.transformations = []
     aspect_instance.instance_eval(&aspects_block)
   end
 
@@ -20,9 +18,10 @@ class Aspects
 
   end
 
-  def transform(methods,&transformation_group)
-      instance_eval(&transformation_group)
-      methods.each {}
+  def transform(methods,&transformations)
+    methods.each do |method|
+      method.instance_eval(&transformations)
+    end
   end
 
 end
