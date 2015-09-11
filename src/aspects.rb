@@ -1,5 +1,6 @@
 require_relative '../src/exceptions/origin_argument_exception'
 require_relative '../src/filters/filter'
+require_relative '../src/transform'
 
 class Aspects
   include Filter
@@ -22,7 +23,9 @@ class Aspects
   end
 
   def transform(methods,&transformations)
-      #TODO
+    methods.each do |method|
+      method.instance_eval(&transformations)
+    end
   end
 
 end

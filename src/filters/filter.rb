@@ -5,7 +5,7 @@ require_relative 'visibility_filter'
 
 module Filter
 
-def optional
+  def optional
     Proc.new { |argument_description| argument_description.first.equal?(:opt) }
   end
 

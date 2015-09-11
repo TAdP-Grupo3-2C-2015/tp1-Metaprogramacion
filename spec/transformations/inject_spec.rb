@@ -14,18 +14,18 @@ describe '.inject' do
 
 
     it 'returns Hola Mundo!' do
-    inject(saludo: 'Hola Mundo!').call(method_to_be_injected)
+      method_to_be_injected.inject(saludo: 'Hola Mundo!')
     expect(class_to_be_injected.new.saludar).to eq('Hola Mundo!')
     end
 
     it 'returns an array' do
-      inject(saludo: ["Todos","P****"]).call(method_to_be_injected)
+      method_to_be_injected.inject(saludo: ["Todos","P****"])
       expect(class_to_be_injected.new.saludar).to eq(["Todos","P****"])
     end
 
     it 'returns the last injected value' do
-      inject(saludo: 'Hola!').call(method_to_be_injected)
-      inject(saludo: 'Mentira! Chau!').call(method_to_be_injected)
+      method_to_be_injected.inject(saludo: 'Hola!')
+      method_to_be_injected.inject(saludo: 'Mentira! Chau!')
       expect(class_to_be_injected.new.saludar).to eq('Mentira! Chau!')
     end
 
@@ -39,17 +39,17 @@ describe '.inject' do
       end
 
     it 'results in 5 when injected with 5 on the second argument and called with 0' do
-      inject(numero2: 5).call(method_to_be_injected)
+      method_to_be_injected.inject(numero2: 5)
       expect(class_to_be_injected.new.sumar(0)).to be(5)
     end
 
     it 'results in 10 when injected both parameters with 5 and called' do
-      inject(numero1: 5, numero2:5).call(method_to_be_injected)
+      method_to_be_injected.inject(numero1: 5, numero2:5)
       expect(class_to_be_injected.new.sumar).to be(10)
     end
 
     it 'results in an exception when passing a string' do
-      inject(numero1: 'string',numero2: 1).call(method_to_be_injected)
+      method_to_be_injected.inject(numero1: 'string',numero2: 1)
       expect {class_to_be_injected.new.sumar }.to raise_error(TypeError)
     end
 
@@ -63,7 +63,7 @@ describe '.inject' do
     end
 
     it 'prints Hola Mundo! when injected Mundo! on saludo2' do
-      inject(saludo2: 'Mundo!').call(method_to_be_injected)
+      method_to_be_injected.inject(saludo2: 'Mundo!')
       expect(class_to_be_injected.new.saludar_con_default 'Hola').to eq('Hola Mundo!')
     end
 
@@ -78,18 +78,18 @@ describe '.inject' do
     end
 
     it 'instance.saludar prints whatever it was injected' do
-      inject(saludo: 'Hola!').call(method_to_be_injected)
+      method_to_be_injected.inject(saludo: 'Hola!')
       expect(instance.saludar).to eq('Hola!')
     end
 
     it 'instance.saludar prints something different than another_instance.saludar' do
-      inject(saludo: 'Hola!').call(method_to_be_injected)
-      inject(saludo: 'Chau!').call(another_instance.method(:saludar))
+      method_to_be_injected.inject(saludo: 'Hola!')
+      another_instance.method(:saludar).inject(saludo: 'Chau!')
       expect(instance.saludar).to_not eq(another_instance.saludar)
     end
 
     it 'instance.saludar is different from instance method saludar' do
-      inject(saludo: 'Hola!').call(method_to_be_injected)
+      method_to_be_injected.inject(saludo: 'Hola!')
       expect(instance.method(:saludar)).to_not eq(class_to_be_injected.instance_method(:saludar))
     end
 
