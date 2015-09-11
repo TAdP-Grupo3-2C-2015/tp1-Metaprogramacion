@@ -1,5 +1,7 @@
 require_relative 'origin'
+
 module Transformations
+  @transformations
 
   def inject(injected_parameters)
       lambda do | method |

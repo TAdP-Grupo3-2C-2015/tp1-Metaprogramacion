@@ -94,4 +94,5 @@ describe '.inject' do
     end
 
   end
+
 end
