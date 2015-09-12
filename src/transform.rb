@@ -3,7 +3,7 @@ require_relative 'origin'
 module Transformations
 
   def inject(injected_parameters)
-        transformation_method_receiver.redefine_method(self, injection_proc(get_injected_parameter_order(injected_parameters)))
+    transformation_method_receiver.redefine_method(self, injection_proc(get_injected_parameter_order(injected_parameters)))
   end
 
   def redirect_to(substitute)
@@ -12,8 +12,17 @@ module Transformations
   end
 
   def after
-
+    #TODO
   end
+
+  def before
+    #TODO
+  end
+
+  def instead_of(&logic_proc)
+    self.owner.redefine_method(self, logic_proc)
+  end
+
 
   def get_injected_parameter_order(injected_parameters)
     parameter_names = parameters.map { | parameter | parameter[1] }
