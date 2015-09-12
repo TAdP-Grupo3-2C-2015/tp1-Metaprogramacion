@@ -1,9 +1,10 @@
-require_relative '../../src/filters/name_filter'
+require_relative '../../src/filters/abstract_filter'
 
-class VisibilityFilter<NameFilter
+class VisibilityFilter<AbstractFilter
 
-  def initialize(boolean)
+  def initialize(boolean=false,legacy_methods = false)
     @private_methods = boolean
+    @all_methods = legacy_methods
   end
 
   private

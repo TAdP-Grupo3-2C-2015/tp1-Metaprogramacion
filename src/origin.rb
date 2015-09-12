@@ -4,21 +4,11 @@ module Origin
     self
   end
 
-  def redefine_method(method,behaviour)
-    send(:define_method,method.name,behaviour)
+  def redefine_method(method, behaviour)
+    send(:define_method, method.name, behaviour)
   end
 
-  def private_selectors
-    self.private_instance_methods
-  end
 
-  def public_selectors
-    self.instance_methods
-  end
-
-  def parse_selector(selector)
-    self.instance_method(selector)
-  end
 end
 
 class Module
@@ -29,21 +19,10 @@ end
 class Object
   include Origin
 
-  def redefine_method(method,behaviour)
-    send(:define_singleton_method,method.name,behaviour) #minima repeticion de logica..ble
+  def redefine_method(method, behaviour)
+    send(:define_singleton_method, method.name, behaviour) #minima repeticion de logica..ble
   end
 
-  def private_selectors
-    self.private_methods
-  end
-
-  def public_selectors
-    self.methods
-  end
-
-  def parse_selector(selector)
-    self.method(selector).unbind
-  end
 
 end
 

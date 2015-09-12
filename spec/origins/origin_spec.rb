@@ -15,7 +15,7 @@ describe '.asOrigin' do
     end
 
     it 'obtains a [1,2,3] as origin' do
-      expect([1,2,3].asOrigin).to eq([1,2,3])
+      expect([1, 2, 3].asOrigin).to eq([1, 2, 3])
     end
 
     it 'obtains Module as an origin' do
@@ -31,11 +31,11 @@ describe '.asOrigin' do
   context 'regex as origins' do
 
     it 'obtains Object and BasicObject as origins' do
-      expect(/.*Object$/.asOrigin).to contain_exactly(Object,BasicObject)
+      expect(/.*Object$/.asOrigin).to contain_exactly(Object, BasicObject)
     end
 
     it 'obtains Class and Module as an origin' do
-      expect(/^Class$|Module$/.asOrigin).to contain_exactly(Class,Module)
+      expect(/^Class$|Module$/.asOrigin).to contain_exactly(Class, Module)
     end
 
     it 'always contains something given .*' do
@@ -44,7 +44,7 @@ describe '.asOrigin' do
 
     it 'matches a new class that is added to constants' do
       test_class = Class.new
-      Object.const_set :OrgTestClass,test_class
+      Object.const_set :OrgTestClass, test_class
       expect(/OrgTestClass/.asOrigin).to contain_exactly(test_class)
     end
 

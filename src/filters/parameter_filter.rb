@@ -1,6 +1,6 @@
-require_relative '../../src/filters/name_filter'
+require_relative '../../src/filters/abstract_filter'
 
-class ParameterFilter < NameFilter
+class ParameterFilter < AbstractFilter
 
   def initialize(number_of_parameters, modifier_proc)
     @number_of_parameters = number_of_parameters

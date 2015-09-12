@@ -1,7 +1,8 @@
 require 'rspec'
 require_relative '../../src/aspects'
+require_relative '../../src/filters/visibility_filter'
 require_relative '../../spec/spec_helper'
-require_relative '../../src/origin'
+
 
 describe VisibilityFilter do
   include Class_helper
@@ -16,57 +17,42 @@ describe VisibilityFilter do
     end
 
     let(:test_instance) do
-      test_class.new
+      instance = test_class.new
+      add_singleton_method(instance, :public, :yyy) {}
+      add_singleton_method(instance, :private, :yyyy) {}
+      instance
     end
 
-    let(:method_xyz) { self.get_method(test_class, :xyz) }
-    let(:method_xyy) { self.get_method(test_class, :xyy) }
-    let(:method_xxx) { self.get_method(test_class, :xxx) }
+    let(:public_method_xyz) { self.get_method(test_class, :xyz) }
+    let(:public_method_xyy) { self.get_method(test_class, :xyy) }
+    let(:private_method_xxx) { self.get_method(test_class, :xxx) }
+    let(:public_method_yyy) { self.get_method(test_instance.singleton_class, :yyy) }
+    let(:private_method_yyyy) { self.get_method(test_instance.singleton_class, :yyyy) }
 
-    context 'when parsing public methods' do
+    context 'public visibility filter' do
 
-      let(:visibility_filter) { VisibilityFilter.new(false) }
+      let(:public_filter) { VisibilityFilter.new }
 
-      it 'using an object as an origin' do
-        test_instance.define_singleton_method(:yyy) {}
-        test_instance.define_singleton_method(:yyyy) {}
-        test_instance.singleton_class.send(:private, :yyyy)
-
-        expect(visibility_filter.call(test_instance).include?(method_xyz))
-        expect(visibility_filter.call(test_instance).include?(method_xyy))
-        expect(visibility_filter.call(test_instance).include?(test_instance.method(:yyy)))
-
-        expect(visibility_filter.call(test_instance)).not_to include(method_xxx, test_instance.method(:yyyy))
-
+      it 'origin is an object' do
+        expect(public_filter.call(test_instance)).to contain_exactly(public_method_xyz, public_method_xyy, public_method_yyy)
       end
 
-      it 'using a class as an origin' do
-        expect(visibility_filter.call(test_class).include?(method_xyz))
-        expect(visibility_filter.call(test_class).include?(method_xyy))
-        expect(visibility_filter.call(test_class)).not_to include(method_xxx)
+      it 'origin is a class' do
+        expect(public_filter.call(test_class)).to contain_exactly(public_method_xyz, public_method_xyy)
       end
 
     end
 
     context 'when parsing private methods' do
 
-      let(:visibility_filter) { VisibilityFilter.new(true) }
+      let(:private_filter) { VisibilityFilter.new(true) }
 
-      it 'using an object as an origin' do
-        test_instance.define_singleton_method(:yyy) {}
-        test_instance.define_singleton_method(:yyyy) {}
-        test_instance.singleton_class.send(:private, :yyyy)
-
-        expect(visibility_filter.call(test_instance).include?(method_xxx))
-        expect(visibility_filter.call(test_instance).include?(test_instance.method(:yyyy)))
-
-        expect(visibility_filter.call(test_class)).not_to include(method_xyz, method_xyy)
+      it 'origin is an object' do
+        expect(private_filter.call(test_instance)).to contain_exactly(private_method_xxx, private_method_yyyy)
       end
 
-      it 'using a class as an origin' do
-        expect(visibility_filter.call(test_class).include?(method_xxx))
-
-        expect(visibility_filter.call(test_class)).not_to include(method_xyz, method_xyy)
+      it 'origin is a class' do
+        expect(private_filter.call(test_class)).to contain_exactly(private_method_xxx)
       end
 
     end
