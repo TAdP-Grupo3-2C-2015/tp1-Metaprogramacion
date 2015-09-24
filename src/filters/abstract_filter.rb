@@ -1,3 +1,5 @@
+require_relative '../../src/method_wrapper'
+
 class AbstractFilter
 
   def call(origin, legacy_methods = false)
@@ -15,26 +17,20 @@ class AbstractFilter
 #-------------------------------------------------
 #-------------------------------------------------
 #-------------------------------------------------
-#-----Mensajes para conseguir selectores. Borrar el par?metro false para conseguir TODOS los selectores
+#-----Mensajes para conseguir selectores. Borrar el parametro false para conseguir TODOS los selectores
 #-------------------------------------------------
 #-------------------------------------------------
 #-------------------------------------------------
 
   def set_origin_actions(origin, legacy_methods)
-    if origin.class.equal? Class
+    if origin.is_a? Module
       @public = Proc.new { |klass| klass.instance_methods(legacy_methods) }
       @private = Proc.new { |klass| klass.private_instance_methods(legacy_methods) }
-      @parse = Proc.new { |klass, symbol| klass.instance_method(symbol) }
+      @parse = Proc.new { |klass, symbol| MethodWrapper.new(klass.instance_method(symbol),klass,klass) }
     else
       @public = Proc.new { |instance| instance.methods(legacy_methods) + instance.class.instance_methods(legacy_methods) }
       @private = Proc.new { |instance| instance.private_methods(legacy_methods) }
-      @parse = Proc.new { |instance, symbol|
-        if instance.class.new.respond_to? symbol
-          instance.class.instance_method(symbol)
-        else
-          instance.singleton_class.instance_method(symbol)
-        end
-      }
+      @parse = Proc.new { |instance, symbol| MethodWrapper.new(instance.method(symbol).unbind,instance.singleton_class,instance)}
     end
   end
 

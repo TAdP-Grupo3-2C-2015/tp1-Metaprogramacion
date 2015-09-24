@@ -34,11 +34,11 @@ describe VisibilityFilter do
       let(:public_filter) { VisibilityFilter.new }
 
       it 'origin is an object' do
-        expect(public_filter.call(test_instance)).to contain_exactly(public_method_xyz, public_method_xyy, public_method_yyy)
+        expect(public_filter.call(test_instance).map{|wrapper| wrapper.method}).to contain_exactly(public_method_xyz, public_method_xyy, public_method_yyy)
       end
 
       it 'origin is a class' do
-        expect(public_filter.call(test_class)).to contain_exactly(public_method_xyz, public_method_xyy)
+        expect(public_filter.call(test_class).map{|wrapper| wrapper.method}).to contain_exactly(public_method_xyz, public_method_xyy)
       end
 
     end
@@ -48,11 +48,11 @@ describe VisibilityFilter do
       let(:private_filter) { VisibilityFilter.new(true) }
 
       it 'origin is an object' do
-        expect(private_filter.call(test_instance)).to contain_exactly(private_method_xxx, private_method_yyyy)
+        expect(private_filter.call(test_instance).map{|wrapper| wrapper.method}).to contain_exactly(private_method_xxx, private_method_yyyy)
       end
 
       it 'origin is a class' do
-        expect(private_filter.call(test_class)).to contain_exactly(private_method_xxx)
+        expect(private_filter.call(test_class).map{|wrapper| wrapper.method}).to contain_exactly(private_method_xxx)
       end
 
     end

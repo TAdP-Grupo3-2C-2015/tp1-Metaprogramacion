@@ -10,8 +10,8 @@ class NegationFilter<AbstractFilter
 
   private
   def matching_methods(selectors)
-    matchs = @filters.map { |filter| filter.call(@origin) }
-    super(selectors) - matchs.flatten
+    matchs = @filters.map { |filter| filter.call(@origin) }.flatten.map{|wrapper| wrapper.method}
+    super(selectors).select{ |wrappedMethod| !matchs.include?(wrappedMethod.method) }
   end
 
   def matching_selectors
