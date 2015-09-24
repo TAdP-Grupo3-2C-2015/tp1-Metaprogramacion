@@ -1,7 +1,7 @@
 require 'rspec'
 require_relative '../../src/aspects'
 require_relative '../../src/filters/name_filter'
-require_relative '../../spec/spec_helper'
+require_relative '../../spec/class_helper'
 
 
 describe NameFilter do
@@ -39,7 +39,7 @@ describe NameFilter do
     context 'origin is a class' do
 
       it 'all selectors' do
-        expect(Aspects.has_name(/xy/).call(test_class)).to contain_exactly(public_method_xyy, private_method_xyz)
+        expect(Aspects.new.has_name(/xy/).call(test_class)).to contain_exactly(public_method_xyy, private_method_xyz)
       end
 
     end
@@ -47,7 +47,7 @@ describe NameFilter do
     context 'origin is an object' do
 
       it 'all selectors' do
-        expect(Aspects.has_name(/xy/).call(test_instance)).to contain_exactly(public_method_xyy, private_method_xyz, public_method_xyyy, private_method_xyyz)
+        expect(Aspects.new.has_name(/xy/).call(test_instance)).to contain_exactly(public_method_xyy, private_method_xyz, public_method_xyyy, private_method_xyyz)
       end
 
     end

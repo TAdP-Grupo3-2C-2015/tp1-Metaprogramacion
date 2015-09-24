@@ -1,6 +1,6 @@
 require 'rspec'
 require_relative '../../src/filters/parameter_filter'
-require_relative '../../spec/spec_helper'
+require_relative '../../spec/class_helper'
 require_relative '../../src/aspects'
 
 describe ParameterFilter do
@@ -47,19 +47,19 @@ describe ParameterFilter do
       context 'origin is an object' do
 
         it 'methods with no parameter' do
-          expect(Aspects.has_parameters(0).call(test_instance)).to contain_exactly(public_no_param, private_no_param, public_singleton_no_param, private_singleton_no_param)
+          expect(Aspects.new.has_parameters(0).call(test_instance)).to contain_exactly(public_no_param, private_no_param, public_singleton_no_param, private_singleton_no_param)
         end
 
         it 'methods with one parameter' do
-          expect(Aspects.has_parameters(1).call(test_instance)).to contain_exactly(public_one_param, private_one_param, public_singleton_one_param, private_singleton_one_param)
+          expect(Aspects.new.has_parameters(1).call(test_instance)).to contain_exactly(public_one_param, private_one_param, public_singleton_one_param, private_singleton_one_param)
         end
 
         it 'methods with three parameter' do
-          expect(Aspects.has_parameters(3).call(test_instance)).to contain_exactly(public_three_param, private_three_param, public_singleton_three_param, private_singleton_three_param)
+          expect(Aspects.new.has_parameters(3).call(test_instance)).to contain_exactly(public_three_param, private_three_param, public_singleton_three_param, private_singleton_three_param)
         end
 
         it 'no methods' do
-          expect(Aspects.has_parameters(100).call(test_instance)).to be_empty
+          expect(Aspects.new.has_parameters(100).call(test_instance)).to be_empty
         end
 
       end
@@ -67,19 +67,19 @@ describe ParameterFilter do
       context 'origin is a class' do
 
         it 'methods with no parameter' do
-          expect(Aspects.has_parameters(0).call(test_class)).to contain_exactly(public_no_param, private_no_param)
+          expect(Aspects.new.has_parameters(0).call(test_class)).to contain_exactly(public_no_param, private_no_param)
         end
 
         it 'methods with one parameter' do
-          expect(Aspects.has_parameters(1).call(test_class)).to contain_exactly(public_one_param, private_one_param)
+          expect(Aspects.new.has_parameters(1).call(test_class)).to contain_exactly(public_one_param, private_one_param)
         end
 
         it 'methods with three parameter' do
-          expect(Aspects.has_parameters(3).call(test_class)).to contain_exactly(public_three_param, private_three_param)
+          expect(Aspects.new.has_parameters(3).call(test_class)).to contain_exactly(public_three_param, private_three_param)
         end
 
         it 'no methods' do
-          expect(Aspects.has_parameters(100).call(test_class)).to be_empty
+          expect(Aspects.new.has_parameters(100).call(test_class)).to be_empty
         end
 
       end
@@ -91,11 +91,11 @@ describe ParameterFilter do
       context 'origin is an object' do
 
         it 'one optional parameter' do
-          expect(Aspects.has_parameters(1, Aspects.optional).call(test_instance)).to contain_exactly(public_three_param, private_three_param, public_singleton_three_param, private_singleton_three_param)
+          expect(Aspects.new.has_parameters(1, Aspects.new.optional).call(test_instance)).to contain_exactly(public_three_param, private_three_param, public_singleton_three_param, private_singleton_three_param)
         end
 
         it 'no matching methods' do
-          expect(Aspects.has_parameters(100, Aspects.optional).call(test_instance)).to be_empty
+          expect(Aspects.new.has_parameters(100, Aspects.new.optional).call(test_instance)).to be_empty
         end
 
       end
@@ -103,11 +103,11 @@ describe ParameterFilter do
       context 'origin is a class' do
 
         it 'one optional parameter' do
-          expect(Aspects.has_parameters(1, Aspects.optional).call(test_class)).to contain_exactly(public_three_param, private_three_param)
+          expect(Aspects.new.has_parameters(1, Aspects.new.optional).call(test_class)).to contain_exactly(public_three_param, private_three_param)
         end
 
         it 'no matching methods' do
-          expect(Aspects.has_parameters(100, Aspects.optional).call(test_class)).to be_empty
+          expect(Aspects.new.has_parameters(100, Aspects.new.optional).call(test_class)).to be_empty
         end
 
       end
@@ -119,11 +119,11 @@ describe ParameterFilter do
       context 'origin is an object' do
 
         it 'one optional parameter' do
-          expect(Aspects.has_parameters(1, Aspects.mandatory).call(test_instance)).to contain_exactly(public_one_param, private_one_param, public_singleton_one_param, private_singleton_one_param)
+          expect(Aspects.new.has_parameters(1, Aspects.new.mandatory).call(test_instance)).to contain_exactly(public_one_param, private_one_param, public_singleton_one_param, private_singleton_one_param)
         end
 
         it 'no matching methods' do
-          expect(Aspects.has_parameters(100, Aspects.mandatory).call(test_instance)).to be_empty
+          expect(Aspects.new.has_parameters(100, Aspects.new.mandatory).call(test_instance)).to be_empty
         end
 
       end
@@ -131,11 +131,11 @@ describe ParameterFilter do
       context 'origin is a class' do
 
         it 'one optional parameter' do
-          expect(Aspects.has_parameters(1, Aspects.mandatory).call(test_class)).to contain_exactly(public_one_param, private_one_param)
+          expect(Aspects.new.has_parameters(1, Aspects.new.mandatory).call(test_class)).to contain_exactly(public_one_param, private_one_param)
         end
 
         it 'no matching methods' do
-          expect(Aspects.has_parameters(100, Aspects.mandatory).call(test_class)).to be_empty
+          expect(Aspects.new.has_parameters(100, Aspects.new.mandatory).call(test_class)).to be_empty
         end
 
       end
@@ -147,15 +147,15 @@ describe ParameterFilter do
       context 'origin is an object' do
 
         it 'returns methods parameter named x' do
-          expect(Aspects.has_parameters(1, /x/).call(test_instance)).to contain_exactly(public_one_param, private_one_param, public_singleton_one_param, private_singleton_one_param)
+          expect(Aspects.new.has_parameters(1, /x/).call(test_instance)).to contain_exactly(public_one_param, private_one_param, public_singleton_one_param, private_singleton_one_param)
         end
 
         it 'returns methods parameter/s named like param*' do
-          expect(Aspects.has_parameters(3, /param/).call(test_instance)).to contain_exactly(public_three_param, private_three_param, public_singleton_three_param, private_singleton_three_param)
+          expect(Aspects.new.has_parameters(3, /param/).call(test_instance)).to contain_exactly(public_three_param, private_three_param, public_singleton_three_param, private_singleton_three_param)
         end
 
         it 'no method is return' do
-          expect(Aspects.has_parameters(1, /regexLoco/).call(test_instance)).to be_empty
+          expect(Aspects.new.has_parameters(1, /regexLoco/).call(test_instance)).to be_empty
         end
 
       end
@@ -163,15 +163,15 @@ describe ParameterFilter do
       context 'origin is a class' do
 
         it 'returns methods parameter named x' do
-          expect(Aspects.has_parameters(1, /x/).call(test_class)).to contain_exactly(public_one_param, private_one_param)
+          expect(Aspects.new.has_parameters(1, /x/).call(test_class)).to contain_exactly(public_one_param, private_one_param)
         end
 
         it 'returns methods parameter/s named like param*' do
-          expect(Aspects.has_parameters(3, /param/).call(test_class)).to contain_exactly(public_three_param, private_three_param)
+          expect(Aspects.new.has_parameters(3, /param/).call(test_class)).to contain_exactly(public_three_param, private_three_param)
         end
 
         it 'no method is return' do
-          expect(Aspects.has_parameters(1, /regexLoco/).call(test_class)).to be_empty
+          expect(Aspects.new.has_parameters(1, /regexLoco/).call(test_class)).to be_empty
         end
 
       end

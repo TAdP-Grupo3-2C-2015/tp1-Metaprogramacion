@@ -1,7 +1,7 @@
 require 'rspec'
 require_relative '../../src/aspects'
 require_relative '../../src/filters/visibility_filter'
-require_relative '../../spec/spec_helper'
+require_relative '../../spec/class_helper'
 
 
 describe VisibilityFilter do
