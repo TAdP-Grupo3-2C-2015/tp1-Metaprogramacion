@@ -1,5 +1,9 @@
+require_relative 'transform'
+
 class MethodWrapper
+  include Transformations
   attr_accessor :method,:owner,:receiver
+
 
   def initialize(method,owner,receiver)
     @method = method

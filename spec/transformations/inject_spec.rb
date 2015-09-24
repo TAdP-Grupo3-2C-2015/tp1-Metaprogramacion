@@ -1,21 +1,21 @@
 require 'rspec'
-require_relative '../../src/transform'
+require_relative '../../src/method_wrapper'
 
 describe '.inject' do
-  include Transformations
 
   let(:class_to_be_injected) { Class.new }
   context 'injects only one parameter on an instance' do
 
     let(:method_to_be_injected) do
       class_to_be_injected.send(:define_method,:saludar,proc {|saludo| saludo})
-      class_to_be_injected.instance_method(:saludar)
+      method = class_to_be_injected.instance_method(:saludar)
+      MethodWrapper.new(method,class_to_be_injected,class_to_be_injected)
     end
 
 
     it 'returns Hola Mundo!' do
       method_to_be_injected.inject(saludo: 'Hola Mundo!')
-    expect(class_to_be_injected.new.saludar).to eq('Hola Mundo!')
+      expect(class_to_be_injected.new.saludar).to eq('Hola Mundo!')
     end
 
     it 'returns an array' do
@@ -35,8 +35,9 @@ describe '.inject' do
 
     let(:method_to_be_injected) do
       class_to_be_injected.send(:define_method,:sumar,proc {|numero1,numero2| numero1 + numero2})
-      class_to_be_injected.instance_method(:sumar)
-      end
+      method = class_to_be_injected.instance_method(:sumar)
+      MethodWrapper.new(method,class_to_be_injected,class_to_be_injected)
+    end
 
     it 'results in 5 when injected with 5 on the second argument and called with 0' do
       method_to_be_injected.inject(numero2: 5)
@@ -59,7 +60,8 @@ describe '.inject' do
 
     let(:method_to_be_injected) do
       class_to_be_injected.send(:define_method,:saludar_con_default,proc {|saludo1,saludo2= 'Mundo'| saludo1 + ' ' + saludo2 })
-      class_to_be_injected.instance_method(:saludar_con_default)
+      method = class_to_be_injected.instance_method(:saludar_con_default)
+      MethodWrapper.new(method,class_to_be_injected,class_to_be_injected)
     end
 
     it 'prints Hola Mundo! when injected Mundo! on saludo2' do
@@ -74,23 +76,39 @@ describe '.inject' do
     let(:another_instance) { class_to_be_injected.new }
     let(:method_to_be_injected) do
       class_to_be_injected.send(:define_method,:saludar,proc {|saludo| saludo})
-      instance.method(:saludar)
+      method = instance.method(:saludar).unbind
+      MethodWrapper.new(method,instance.singleton_class,instance)
     end
 
     it 'instance.saludar prints whatever it was injected' do
       method_to_be_injected.inject(saludo: 'Hola!')
-      expect(instance.saludar).to eq('Hola!')
+      expect(instance.saludar('Pepe')).to eq('Hola!')
     end
 
     it 'instance.saludar prints something different than another_instance.saludar' do
       method_to_be_injected.inject(saludo: 'Hola!')
-      another_instance.method(:saludar).inject(saludo: 'Chau!')
+      another_method = MethodWrapper.new(another_instance.method(:saludar).unbind,another_instance.singleton_class,another_instance)
+      another_method.inject(saludo: 'Chau!')
       expect(instance.saludar).to_not eq(another_instance.saludar)
     end
 
     it 'instance.saludar is different from instance method saludar' do
       method_to_be_injected.inject(saludo: 'Hola!')
-      expect(instance.method(:saludar)).to_not eq(class_to_be_injected.instance_method(:saludar))
+      expect(instance.method(:saludar).unbind).to_not eq(class_to_be_injected.instance_method(:saludar))
+    end
+
+  end
+
+  context 'it injects a the result of a proc' do
+    let (:method_to_be_injected) do
+      class_to_be_injected.send(:define_method,:hace_algo, proc {|p1,p2| p1 + "-" + p2})
+      method = class_to_be_injected.instance_method(:hace_algo)
+      MethodWrapper.new(method,class_to_be_injected,class_to_be_injected)
+    end
+
+    it 'returns foo-bar(hace_algo->foo)' do
+      method_to_be_injected.inject(p2: proc {|receptor,mensaje,arg_anterior| "bar(#{mensaje}->#{arg_anterior})"})
+      expect(class_to_be_injected.new.hace_algo("foo","foo")).to eq("foo-bar(hace_algo->foo)")
     end
 
   end
