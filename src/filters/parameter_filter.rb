@@ -1,32 +1,17 @@
-require_relative '../../src/filters/name_filter'
+require_relative '../../src/filters/abstract_filter'
 
-class ParameterFilter < NameFilter
+class ParameterFilter < AbstractFilter
 
   def initialize(number_of_parameters, modifier_proc)
     @number_of_parameters = number_of_parameters
     @modifier_proc = parse_if_regex(modifier_proc)
   end
 
-
-  #-------------------------------------------------
-  #-------------------------------------------------
-  #-------------------------------------------------
-  #-----Parseo todos los métodos
-  #-------------------------------------------------
-  #-------------------------------------------------
-  #-------------------------------------------------
   private
   def matching_methods(selectors)
     filter_by_modifier(super)
   end
 
-  #-------------------------------------------------
-  #-------------------------------------------------
-  #-------------------------------------------------
-  #-----Filtrado los métodos en función del proc
-  #-------------------------------------------------
-  #-------------------------------------------------
-  #-------------------------------------------------
   def filter_by_modifier(methods)
     methods.select { |method| method.parameters.select { |parameter_info| @modifier_proc.call(parameter_info) }.size.equal?(@number_of_parameters) }
   end

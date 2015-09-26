@@ -1,7 +1,7 @@
 class OriginArgumentException < RuntimeError
 
-  def initialize()
-    super('Wrong number of arguments (0 for +1)')
+  def initialize(msg)
+    super(msg)
   end
 
 end
