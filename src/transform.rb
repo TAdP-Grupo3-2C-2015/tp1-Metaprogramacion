@@ -14,17 +14,17 @@ module Transformations
   end
 
   def before(&extend_behaviour)
-    orig_method = self
+    transformation_context = self
     instead_of(&proc do |*args|
                  instance_eval &extend_behaviour
-                 instance_eval { orig_method.bind(self).call *args }
+                 instance_eval { transformation_context.bind(self).call *args }
                end)
   end
 
   def after(&extend_behaviour)
-    orig_method = self
+    transformation_context = self
     instead_of(&proc do |*args|
-                 instance_eval { orig_method.bind(self).call *args }
+                 instance_eval { transformation_context.bind(self).call *args }
                  instance_eval &extend_behaviour
                end)
   end
