@@ -21,6 +21,7 @@ describe '.instead_of' do
   end
 
   let(:singleton_method) do
+    @obj = example_class.new
     @obj.send(:define_singleton_method,:say_hello,proc { "hello Singleton" })
     MethodWrapper.new(@obj.method(:say_hello).unbind,@obj.singleton_class,@obj)
   end

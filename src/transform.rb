@@ -13,12 +13,20 @@ module Transformations
     redefine_method(proc {|*arguments| substitute.send(transformation_context.name,arguments)})
   end
 
-  def after
-    #TODO
+  def before(&extend_behaviour)
+    orig_method = self
+    instead_of(&proc do |*args|
+                 instance_eval &extend_behaviour
+                 instance_eval { orig_method.bind(self).call *args }
+               end)
   end
 
-  def before
-    #TODO
+  def after(&extend_behaviour)
+    orig_method = self
+    instead_of(&proc do |*args|
+                 instance_eval { orig_method.bind(self).call *args }
+                 instance_eval &extend_behaviour
+               end)
   end
 
   def instead_of(&logic_proc)
