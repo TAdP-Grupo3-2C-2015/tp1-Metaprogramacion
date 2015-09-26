@@ -8,7 +8,7 @@ class Aspects
 
   def self.on(*origins, &aspects_block)
     aspect_instance = self.new
-    aspect_instance.origins = origins.map { |possible_origin| possible_origin.asOrigin }.flatten.uniq
+    aspect_instance.origins = origins.map { |possible_origin| asOrigin(possible_origin) }.flatten.uniq
     raise OriginArgumentException 'Origin set was empty' if aspect_instance.origins.empty?
     aspect_instance.instance_eval(&aspects_block)
   end
@@ -23,5 +23,16 @@ class Aspects
       method.instance_eval(&transformations)
     end
   end
+
+  private
+
+  def self.asOrigin(possible_origin)
+    if possible_origin.is_a? Regexp
+      Object.constants.select {|constant_symbol| possible_origin.match(constant_symbol)}.map {|origin_symbol| Object.const_get(origin_symbol)}
+    else
+      possible_origin
+    end
+  end
+
 
 end
