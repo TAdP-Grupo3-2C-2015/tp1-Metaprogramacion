@@ -2,7 +2,7 @@ module Transformations
 
   def inject(injected_parameters)
     transformation_context = self
-    redefine_method(proc do |*arguments|
+    instead_of &(proc do |*arguments|
                       transformation_context.inject_parameters_into(transformation_context.get_injected_parameter_order(injected_parameters),arguments)
                       transformation_context.bind(self).call(*arguments)
                       end)
@@ -10,22 +10,22 @@ module Transformations
 
   def redirect_to(substitute)
     transformation_context = self
-    redefine_method(proc {|*arguments| substitute.send(transformation_context.name,*arguments)})
+    instead_of &(proc {|*arguments| substitute.send(transformation_context.name,*arguments)})
   end
 
-  def before(&extend_behaviour)
+  def before(&behaviour)
     transformation_context = self
     instead_of &(proc do |*args|
-                 instance_exec *args,&extend_behaviour
-                 instance_eval { transformation_context.bind(self).call(*args) }
+                 instance_exec *args,&behaviour
+                 transformation_context.bind(self).call(*args)
                end)
   end
 
-  def after(&extend_behaviour)
+  def after(&behaviour)
     transformation_context = self
     instead_of &(proc do |*args|
-                 instance_eval { transformation_context.bind(self).call *args }
-                 instance_exec *args,&extend_behaviour
+                 transformation_context.bind(self).call *args
+                 instance_exec *args,&behaviour
                end)
   end
 
