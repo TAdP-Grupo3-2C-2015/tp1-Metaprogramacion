@@ -4,15 +4,15 @@ module Transformations
 
   def inject(injected_parameters)
     transformation_context = self
-    redefine_method &(proc do |*arguments|
-                      transformation_context.inject_parameters_into(transformation_context.get_injected_parameter_order(injected_parameters),arguments)
+    redefine_method (proc do |*arguments|
+                      transformation_context.inject_parameters_into(transformation_context.get_injected_parameter_with_order(injected_parameters),arguments)
                       transformation_context.bind(self).call(*arguments)
                       end)
   end
 
   def redirect_to(substitute)
     transformation_context = self
-    redefine_method &(proc {|*arguments| substitute.send(transformation_context.name,*arguments)})
+    redefine_method (proc {|*arguments| substitute.send(transformation_context.name,*arguments)})
   end
 
   def before(&behaviour)
@@ -31,11 +31,12 @@ module Transformations
                end)
   end
 
-  def instead_of(&extend_behaviour)
-    redefine_method(extend_behaviour)
+  def instead_of(&behaviour)
+    redefine_method(behaviour)
   end
 
-  def get_injected_parameter_order(injected_parameters)
+  #Me di cuenta tarde que existia el with_index. Too late para un refactor.
+  def get_injected_parameter_with_order(injected_parameters)
     parameter_names = parameters.map { | parameter | parameter[1] }
     injected_parameters.map {|name,value| [parameter_names.find_index(name),value]}.to_h
   end
