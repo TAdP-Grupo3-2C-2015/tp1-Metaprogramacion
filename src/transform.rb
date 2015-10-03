@@ -1,8 +1,10 @@
 module Transformations
+  #Legacy en el sentido de que no hace falta que se un module ahora, y bien podria ser una clase Transformer y instanciarse en el wrapper.
+  #Quizas tendria algo mas de sentido, pero asi esta bien
 
   def inject(injected_parameters)
     transformation_context = self
-    instead_of &(proc do |*arguments|
+    redefine_method &(proc do |*arguments|
                       transformation_context.inject_parameters_into(transformation_context.get_injected_parameter_order(injected_parameters),arguments)
                       transformation_context.bind(self).call(*arguments)
                       end)
@@ -10,7 +12,7 @@ module Transformations
 
   def redirect_to(substitute)
     transformation_context = self
-    instead_of &(proc {|*arguments| substitute.send(transformation_context.name,*arguments)})
+    redefine_method &(proc {|*arguments| substitute.send(transformation_context.name,*arguments)})
   end
 
   def before(&behaviour)
