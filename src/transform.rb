@@ -1,6 +1,6 @@
 module Transformations
-  #Legacy en el sentido de que no hace falta que se un module ahora, y bien podria ser una clase Transformer y instanciarse en el wrapper.
-  #Quizas tendria algo mas de sentido, pero asi esta bien
+  #Legacy en el sentido de que no hace falta que se un module ahora comparado con lo que teniamos
+  #Bien podria ser una clase Transformer y instanciarse en el wrapper.
 
   def inject(injected_parameters)
     transformation_context = self
