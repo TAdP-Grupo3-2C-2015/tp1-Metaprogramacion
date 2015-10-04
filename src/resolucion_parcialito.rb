@@ -4,7 +4,7 @@ Aspects.on(Aspects.singleton_class) do
   transform where(has_name(/asOrigin/)) do
     before do |args|
       if args.is_a? Array
-        if args.any? {|mod| mod.ancestors.include? Class}
+        if args.any? {|mod| mod.ancestors.include? Class} #is_a? Class deberia funcionar tambien, pero no me lo tomaba por alguna razon
           klass = args.bsearch {|mod| mod.ancestors.include? Class}
           modules = args.select {|mod| !mod.ancestors.include? Class}
           if (modules - klass.ancestors).empty?
@@ -21,5 +21,4 @@ Aspects.on(Aspects.singleton_class) do
 end
 
 #Sino, abriendo Aspects y modificando asOrigin de la misma forma que esta en el bloque o similar.
-#Yo me confundi, pregunte mod.is_a? Class, y es re obvio que si, soy un gil, deberia haber preguntado ancestors.include? Class
 #Fuera de eso, tuve un por menor en que no filtraba que las ocnstantes fueran clases o modulos, y que no estuviera incluido en lo que recibo
