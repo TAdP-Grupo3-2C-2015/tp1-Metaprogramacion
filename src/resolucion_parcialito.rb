@@ -4,9 +4,9 @@ Aspects.on(Aspects.singleton_class) do
   transform where(has_name(/asOrigin/)) do
     before do |args|
       if args.is_a? Array
-        if args.any? {|mod| mod.ancestors.include? Class}
-          klass = args.bsearch {|mod| mod.ancestors.include? Class}
-          modules = args.select {|mod| !mod.ancestors.include? Class}
+        if args.any? {|mod| mod.is_a? Class}
+          klass = args.bsearch {|mod| mod.is_a? Class}
+          modules = args.select {|mod| !mod.is_a? Class}
           if (modules - klass.ancestors).empty?
             return klass
           else

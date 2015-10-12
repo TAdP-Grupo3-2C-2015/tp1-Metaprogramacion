@@ -23,4 +23,12 @@ class MethodWrapper
     @method.respond_to?(symbol,include_all)
   end
 
+  def hash
+    method.hash
+  end
+
+  def eql?(another)
+    method.eql? another.method
+  end
+
 end

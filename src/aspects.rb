@@ -15,7 +15,7 @@ class Aspects
 
 
   def where(*filters)
-    origins.flat_map { |origin| filters.map { |filter| filter.call origin } }.inject(:&)
+    origins.flat_map { |origin| filters.map { |filter| filter.call origin }.inject(:&) }
   end
 
   def transform(methods, &transformations)
