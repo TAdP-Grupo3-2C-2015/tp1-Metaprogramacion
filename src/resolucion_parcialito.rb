@@ -21,5 +21,4 @@ Aspects.on(Aspects.singleton_class) do
 end
 
 #Sino, abriendo Aspects y modificando asOrigin de la misma forma que esta en el bloque o similar.
-#Yo me confundi, pregunte mod.is_a? Class, y es re obvio que si, soy un gil, deberia haber preguntado ancestors.include? Class
 #Fuera de eso, tuve un por menor en que no filtraba que las ocnstantes fueran clases o modulos, y que no estuviera incluido en lo que recibo
